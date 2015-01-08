@@ -266,7 +266,7 @@ and which are efficient.
 
 \ifsolution \solution{}
 %%% PROBLEM 3(c) SOLUTION START %%%
-1
+2
 %%% PROBLEM 3(c) SOLUTION END %%%
 \fi
 
@@ -278,7 +278,7 @@ and which are efficient.
 
 \ifsolution \solution{}
 %%% PROBLEM 3(d) SOLUTION START %%%
-2
+1
 %%% PROBLEM 3(d) SOLUTION END %%%
 \fi
 
@@ -316,7 +316,7 @@ and which are efficient.
 
 \ifsolution \solution{}
 %%% PROBLEM 4(b) SOLUTION START %%%
-2
+5
 %%% PROBLEM 4(b) SOLUTION END %%%
 \fi
 
@@ -332,7 +332,7 @@ and which are efficient.
 
 \ifsolution \solution{}
 %%% PROBLEM 4(c) SOLUTION START %%%
-3
+2
 %%% PROBLEM 4(c) SOLUTION END %%%
 \fi
 
@@ -348,7 +348,7 @@ and which are efficient.
 
 \ifsolution \solution{}
 %%% PROBLEM 4(d) SOLUTION START %%%
-1
+2
 %%% PROBLEM 4(d) SOLUTION END %%%
 \fi
 
@@ -443,7 +443,28 @@ Hence, we have a contradiction.
 
 \ifsolution \solution{}
 %%% PROBLEM 5 SOLUTION START %%%
-Write your proof here.
+To show that the algorithm will always return a result, note that both the rows and columns
+are strictly decreasing, in alternation. In order for the problem to return
+no result, it would have to examine an empty subproblem. To do that, it
+would have needed to examine a subproblem where either the number of columns or rows
+was equal to 0. Just before that, that dimension would need to be equal to 1 or 2.
+Without loss of generality, assume that the algorithm splits on columns, and
+the number of columns is 1 or 2. At that point, if the number of columns is 1,
+then finding the max of the problem is equivalent to finding the max of the column,
+and the algorithm will return. If the number of columns is 2, then the algorithm
+will find a max for the chosen column. If it is a peak, it will return, otherwise,
+it will split the problem first on a row, and then the column; two iterations later
+it will have only one column. At that point, it reduces to the previous case.
+
+The algorithm is correct because of the $bestSeen$ variable. At each step, after
+finding the best neighbor adjacent to the maximum of the dividing row or column,
+it compares that neighbor to the $bestSeen$ variable. If $val(neighbor) > val(bestSeen)$,
+then the algorithm will recurse into the half of the problem containing $neighbor$.
+However, if $val(neighbor) < val(bestSeen)$, then the algorithm will recurse into the
+half of the problem containing $bestSeen$. Because $bestSeen$ will always be initially
+set to a point greater than a peak in a dividing column or row, so it is guaranteed
+to be bounded by values less than itself. This implies that if $bestSeen$ is a peak
+in the current problem, it is a peak in the total problem.
 %%% PROBLEM 5 SOLUTION END %%%
 \fi
 
@@ -458,19 +479,22 @@ that is not a peak).
 %%% PROBLEM 6 SOLUTION START %%%
 \begin{verbatim}
 problemMatrix = [
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0]
+  [ 0, 0, 9, 8, 0, 0, 0],
+  [ 0, 0, 0, 0, 0, 0, 0],
+  [ 0, 1, 0, 0, 0, 0, 0],
+  [ 0, 2, 0, 0, 0, 0, 0],
+  [ 0, 0, 0, 0, 0, 0, 0],
+  [ 0, 0, 0, 0, 0, 0, 0],
+  [ 0, 0, 0, 0, 0, 0, 0]
 ]
 
 problemMatrix = [
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0]
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 2, 3, 0, 0],
+    [8, 0, 0, 0, 0, 0],
+    [7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0]
 ]
 \end{verbatim}
 %%% PROBLEM 6 SOLUTION END %%%
