@@ -61,7 +61,7 @@ None.
 }
 \newcommand{\answerIh}{ \answer
 %%% PROBLEM 1(h) ANSWER START %%%
-2
+0
 %%% PROBLEM 1(h) ANSWER END %%%
 }
 \newcommand{\answerIi}{ \answer
@@ -71,7 +71,7 @@ None.
 }
 \newcommand{\answerIj}{ \answer
 %%% PROBLEM 1(j) ANSWER START %%%
-4
+1
 %%% PROBLEM 1(j) ANSWER END %%%
 }
 \newcommand{\answerIk}{ \answer
@@ -97,12 +97,12 @@ None.
 }
 \newcommand{\answerIn}{ \answer
 %%% PROBLEM 1(n) ANSWER START %%%
-2
+4
 %%% PROBLEM 1(n) ANSWER END %%%
 }
 \newcommand{\answerIo}{ \answer
 %%% PROBLEM 1(o) ANSWER START %%%
-4
+1
 %%% PROBLEM 1(o) ANSWER END %%%
 }
 \newcommand{\answerIp}{ \answer
@@ -112,12 +112,12 @@ None.
 }
 \newcommand{\answerIq}{ \answer
 %%% PROBLEM 1(q) ANSWER START %%%
-4
+1
 %%% PROBLEM 1(q) ANSWER END %%%
 }
 \newcommand{\answerIr}{ \answer
 %%% PROBLEM 1(r) ANSWER START %%%
-4
+3
 %%% PROBLEM 1(r) ANSWER END %%%
 }
 \newcommand{\answerIs}{ \answer
@@ -132,14 +132,19 @@ None.
 }
 \newcommand{\answerIu}{ \answer
 %%% PROBLEM 1(u) ANSWER START %%%
-Rasterizing a triangle is proportional to the area $A$ of a triangle.
-$A = \frac{\sqrt{3}}{4} \times l^2$ where $l$ is the side length.
-The $ith$ recursive step creates one triangle of side length
-$\frac{l}{3^i}$ and 4 problems in the $i+1 th$ step.
-Therefore, the total work done at any step $i$ is
-$4^i \times \frac{\sqrt{3}}{4} \times \frac{l}{3^i}$
+Because the triangles are compiled first and only rasterized at the end
+of the process, the rendering is a constant-time operation.
 
-This grows as $4^i$, which gives a total complexity of Θ($4^n$).
+The cost of rasterizing each triangle is proportional to its area, but
+the total area of the triangles is bounded by the area of the original triangle
+that is rendered in step $-1$. Therefore, the total cost is bounded by a constant
+and because it is assumed that this cost is greater than compiling the
+list of triangles, it dominates and gives Θ(1).
+
+My confusion in this proof and the problems before was that the actual
+drawing did not happen on each step, but only the last. Therefore, I thought
+that the total area being drawn would increase with each recursion of the problem
+because triangles were begin subdivided and re-drawn.
 %%% PROBLEM 1(u) ANSWER END %%%
 }
 \newcommand{\answerIIa}{ \answer 
