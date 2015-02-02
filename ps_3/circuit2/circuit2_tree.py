@@ -4,6 +4,7 @@ import json   # Used when TRACE=jsonp
 import os     # Used to get the TRACE environment variable
 import re     # Used when TRACE=jsonp
 import sys    # Used to smooth over the range / xrange issue.
+import red_black_tree as rb
 
 # Python 3 doesn't have xrange, and range behaves like xrange.
 if sys.version_info >= (3,):
@@ -138,33 +139,29 @@ class WireLayer(object):
     return layer
 
 class RangeIndex(object):
-  """Array-based range index implementation."""
+  """Red-Black tree based range index implementation."""
 
   def __init__(self):
     """Initially empty range index."""
-    self.data = []
+    self.data = rb.RedBlackTree()
 
   def add(self, key):
     """Inserts a key in the range index."""
     if key is None:
-        raise ValueError('Cannot insert nil in the index')
-    self.data.append(key)
+      raise ValueError('Cannot insert nil in the index')
+    self.data.insert(key)
 
   def remove(self, key):
     """Removes a key from the range index."""
-    self.data.remove(key)
+    self.data.delete(key)
 
   def list(self, first_key, last_key):
     """List of values for the keys that fall within [first_key, last_key]."""
-    return [key for key in self.data if first_key <= key <= last_key]
+    return self.data.list(first_key, last_key)
 
   def count(self, first_key, last_key):
     """Number of keys that fall within [first_key, last_key]."""
-    result = 0
-    for key in self.data:
-      if first_key <= key <= last_key:
-        result += 1
-    return result
+    return len(self.list(first_key, last_key))
 
 class TracedRangeIndex(RangeIndex):
   """Augments RangeIndex to build a trace for the visualizer."""
@@ -264,7 +261,7 @@ class KeyWirePair(object):
 
   def __ne__(self, other):
     # :nodoc: Delegate comparison to keys.
-    return self.key == other.key and self.wire_id == other.wire_id
+    return self.key != other.key or self.wire_id != other.wire_id
 
   def __hash__(self):
     # :nodoc: Delegate comparison to keys.
@@ -326,10 +323,10 @@ class CrossVerifier(object):
 
   def _events_from_layer(self, layer):
     """Populates the sweep line events from the wire layer."""
-    left_edge = min([wire.x1 for wire in layer.wires.values()])
     for wire in layer.wires.values():
       if wire.is_horizontal():
-        self.events.append([left_edge, 0, wire.object_id, 'add', wire])
+        self.events.append([wire.x1, 0, wire.object_id, 'add', wire])
+        self.events.append([wire.x2, 2, wire.object_id, 'remove', wire])
       else:
         self.events.append([wire.x1, 1, wire.object_id, 'query', wire])
 
@@ -345,17 +342,18 @@ class CrossVerifier(object):
 
       if event_type == 'add':
         self.index.add(KeyWirePair(wire.y1, wire))
+      elif event_type == 'remove':
+        self.index.remove(KeyWirePair(wire.y1, wire))
       elif event_type == 'query':
         self.trace_sweep_line(event_x)
-        cross_wires = []
-        for kwp in self.index.list(KeyWirePairL(wire.y1),
-                                   KeyWirePairH(wire.y2)):
-          if wire.intersects(kwp.wire):
-            cross_wires.append(kwp.wire)
         if count_only:
-          result += len(cross_wires)
+          result += self.index.count(KeyWirePair(wire.y1, wire),
+                                     KeyWirePair(wire.y2, wire)
+                                    )
         else:
-          for cross_wire in cross_wires:
+          for key_wire_pair in self.index.list(KeyWirePair(wire.y1, wire),
+                                               KeyWirePair(wire.y2, wire)
+                                              ):
             result.add_crossing(wire, cross_wire)
 
     return result

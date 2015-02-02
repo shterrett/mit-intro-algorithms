@@ -1,0 +1,59 @@
+All answers below are values, and not the number of the answer choice:
+
+
+Problem 1
+
+a: AVL tree
+b: O(lg n)
+c: O(lg n)
+d: O(lg n)
+e: Rank(h) - Rank(l) + 1
+f: Rank(h) - Rank(l)
+g: Rank(h) - Rank(l)
+h: Rank(h) - Rank(l) - 1
+i: Number of nodes in subtree
+j: O(n) bits
+k: 1
+l: 3
+m: 6
+n: 10
+o: Insert, Delete, Rotate-Left, Rotate-Right,
+p: O(lg n)
+q: Lowest Common Ancestor
+r: O(log n)
+s: O(lg L)
+t:
+
+LCA determines the lowest node in the tree such that l and h are reachable
+from that node. When the loop is initialized, node is the root of the tree,
+and so all nodes in the tree are reachable. The exit condition is when low is
+less than or equal to the node and high is greater than or equal to the node.
+When l is less than or equal to the node, it is to the left of the node, and
+when h is greater than or equal to the node, it is to the right. Therefore,
+when both of these conditions are true, node is the lowest common node, because
+movement to the left or right would exclude one of the boundaries.
+Assuming l <= h, if both of the conditions are not true, one of them is true,
+and the next node will be chosen in the direction so that it remains true.
+Assume, without loss of generality, that h is greater than node, but l is not
+less than or equal to node. This means that l must be greater than node, and
+so the next node is chosen as node.right. The immediate right child roots
+a subtree that must include both l and h, because it only excludes values
+less than or equal to the (previous) node. Proceeding in this manner,
+eventually l will be in the left subtree of node and h in the right.
+This is because l is less than h, and so it will be passed first. At this point,
+node will be the lowest common ancestor of the the two boundaries.
+
+Problem 2
+
+a: intersects(self, other_wire)
+b: 187590314
+c: the x-coordinates where vertical and horizontal wires intersect
+d: the wire is added to the range index
+e: the wire is removed from the range index
+f: nothing happens
+g: a range index query is performed
+h: the range index holds all wires 'stabbed' by the sweep line
+i: the x-coordinate that will remove it from the index
+j: _add_intersections
+k: 49432
+l: Implemented a red-black tree
