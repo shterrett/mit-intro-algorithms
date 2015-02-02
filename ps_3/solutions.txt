@@ -9,19 +9,19 @@ c: O(lg n)
 d: O(lg n)
 e: Rank(h) - Rank(l) + 1
 f: Rank(h) - Rank(l)
-g: Rank(h) - Rank(l)
-h: Rank(h) - Rank(l) - 1
+g: Rank(h) - Rank(l) + 1
+h: Rank(h) - Rank(l)
 i: Number of nodes in subtree
-j: O(n) bits
+j: O(lg n) bits
 k: 1
 l: 3
 m: 6
 n: 10
-o: Insert, Delete, Rotate-Left, Rotate-Right,
+o: Rotate-Left, Rotate-Right, Rebalance
 p: O(lg n)
 q: Lowest Common Ancestor
 r: O(log n)
-s: O(lg L)
+s: O(lg N) + O(L)
 t:
 
 LCA determines the lowest node in the tree such that l and h are reachable
@@ -47,13 +47,20 @@ Problem 2
 
 a: intersects(self, other_wire)
 b: 187590314
-c: the x-coordinates where vertical and horizontal wires intersect
+## Mis-interpreted the sweep-line. Assumed it was sweeping horizontally
+and that setting up the events was the previous programmer "bailing", so
+I attempted to eliminate those. This misconception is at the root of the incorrect answers below.
+Actually the line sweeps vertically at every point of interest, and the
+points are added as in the original problem set, with the addition of adding
+wire.x2 for removal. Then, at each point, if the line is vertical, sweep
+down the y axis from y1 to y2 to find intersections.
+c: x-coord of vert and both horiz endpoints
 d: the wire is added to the range index
 e: the wire is removed from the range index
 f: nothing happens
 g: a range index query is performed
 h: the range index holds all wires 'stabbed' by the sweep line
-i: the x-coordinate that will remove it from the index
+i: y-coord of the wire
 j: _add_intersections
 k: 49432
 l: Implemented a red-black tree
