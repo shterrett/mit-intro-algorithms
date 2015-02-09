@@ -22,18 +22,14 @@ d: If the table is increased by constant k size each time it is grown, the
    but the amount of work required to increase the table does (Θ(n + mʹ)).
    Therefore it is no longer possible to amortize the cost of growing the table
    over the insert/delete operations because the cost of the table growth grows
-   faster than the number of inserts, which is Θ(k) => Θ(1).
+   faster than the number of inserts, which is Θ(k) => Θ(n).
 
 2:
 a: Many inserts right after creation (ie populated at create), and then mostly
    lookups (because never say never or, in the case of (2), only).
 
 b: A large initial size because of the knowledge that many insertions are coming.
-   However, maintaining the table growth at a factor of 2 because that gives
-   Θ(1) amortized for insert and delete, so there is no reason to change it.
-   A table growth factor of 4 doubles the amount of work required to grow the
-   table, but only increases the number of insertions by 50%, so its amortized
-   time will be > Θ(1)
+   Growth factor of 4 because membership testing benefits from highly sparse tables.
 
 4:
 d: We don't get the same benefit from only hashing the mth subsequence
