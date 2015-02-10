@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image decryption visualization</title>
+    <style type="text/css">
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  height: 100%; }
+
+body {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: inline-axis;
+  -moz-box-orient: inline-axis;
+  box-orient: inline-axis;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+  text-align: center; }
+
+section {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: block-axis;
+  -moz-box-orient: block-axis;
+  box-orient: block-axis;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1; }
+
+section .canvas-wrapper {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: block-axis;
+  -moz-box-orient: block-axis;
+  box-orient: block-axis;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  position: relative; }
+
+canvas {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  display: block; }
+
+    </style>
+
+    <script type="text/javascript">
+(function() {
+  var Pwnvg, PwnvgElement, PwnvgPathBuilder;
+  Pwnvg = (function() {
+    function Pwnvg(svgContainer, minX, minY, maxX, maxY) {
+      this.svgContainer = svgContainer;
+      this.minX = minX;
+      this.minY = minY;
+      this.maxX = maxX;
+      this.maxY = maxY;
+      this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      this.svg.setAttribute('version', '1.1');
+      this.svg.setAttribute('viewBox', "" + this.minX + " " + this.minY + " " + (this.maxX - this.minX) + " " + (this.maxY - this.minY));
+      svgContainer.appendChild(this.svg);
+    }
+    Pwnvg.prototype.path = function(pathData) {
+      var dom;
+      dom = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      dom.setAttribute('d', pathData.toString());
+      this.svg.appendChild(dom);
+      return new PwnvgElement(dom);
+    };
+    Pwnvg.prototype.rect = function(x1, y1, x2, y2) {
+      var dom, _ref, _ref2;
+      if (x1 > x2) {
+        _ref = [x1, x2], x2 = _ref[0], x1 = _ref[1];
+      }
+      if (y1 > y2) {
+        _ref2 = [y1, y2], y2 = _ref2[0], y1 = _ref2[1];
+      }
+      dom = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      dom.setAttribute('x', x1);
+      dom.setAttribute('y', y1);
+      dom.setAttribute('width', x2 - x1);
+      dom.setAttribute('height', y2 - y1);
+      this.svg.appendChild(dom);
+      return new PwnvgElement(dom);
+    };
+    Pwnvg.prototype.circle = function(x, y, r) {
+      var dom;
+      dom = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dom.setAttribute('cx', x);
+      dom.setAttribute('cy', y);
+      dom.setAttribute('r', r);
+      this.svg.appendChild(dom);
+      return new PwnvgElement(dom);
+    };
+    Pwnvg.path = function() {
+      return new PwnvgPathBuilder;
+    };
+    return Pwnvg;
+  })();
+  PwnvgElement = (function() {
+    function PwnvgElement(dom) {
+      this.dom = dom;
+    }
+    PwnvgElement.prototype.hasClass = function(klass) {
+      return (new RegExp('(^|\\s)' + klass + '(\\s|$)')).test(this.dom.getAttribute('class') || '');
+    };
+    PwnvgElement.prototype.addClass = function(klass) {
+      if (!this.hasClass(klass)) {
+        this.dom.setAttribute('class', [this.dom.getAttribute('class'), ' ', klass].join('').trim());
+      }
+      return this;
+    };
+    PwnvgElement.prototype.removeClass = function(klass) {
+      var list;
+      list = this.dom.getAttribute('class');
+      this.dom.setAttribute('class', list.replace(new RegExp('(^|\\s)' + klass + '(\\s|$)'), ' ').trim());
+      return this;
+    };
+    PwnvgElement.prototype.id = function(newId) {
+      this.dom.id = newId;
+      return this;
+    };
+    PwnvgElement.prototype.remove = function() {
+      this.dom.parentNode.removeChild(this.dom);
+      return this;
+    };
+    PwnvgElement.prototype.moveToTop = function() {
+      var parent;
+      parent = this.dom.parentNode;
+      parent.removeChild(this.dom);
+      parent.appendChild(this.dom);
+      return this;
+    };
+    PwnvgElement.prototype.moveToBottom = function() {
+      var parent;
+      parent = this.dom.parentNode;
+      parent.removeChild(this.dom);
+      parent.insertBefore(this.dom, parent.firstChild);
+      return this;
+    };
+    PwnvgElement.prototype.fill = function(colorSpec) {
+      this.dom.setAttribute('fill', colorSpec);
+      return this;
+    };
+    PwnvgElement.prototype.stroke = function(colorSpec) {
+      this.dom.setAttribute('stroke', colorSpec);
+      return this;
+    };
+    PwnvgElement.prototype.strokeWidth = function(width) {
+      this.dom.setAttribute('stroke-width', width.toString());
+      return this;
+    };
+    return PwnvgElement;
+  })();
+  PwnvgPathBuilder = (function() {
+    function PwnvgPathBuilder() {
+      this.command = [];
+    }
+    PwnvgPathBuilder.prototype.moveTo = function(x, y) {
+      this.command.push('M');
+      this.command.push(x);
+      this.command.push(',');
+      this.command.push(y);
+      return this;
+    };
+    PwnvgPathBuilder.prototype.moveBy = function(dx, dy) {
+      this.command.push('m');
+      this.command.push(dx);
+      this.command.push(',');
+      this.command.push(dy);
+      return this;
+    };
+    PwnvgPathBuilder.prototype.lineTo = function(x, y) {
+      this.command.push('L');
+      this.command.push(x);
+      this.command.push(',');
+      this.command.push(y);
+      return this;
+    };
+    PwnvgPathBuilder.prototype.lineBy = function(dx, dy) {
+      this.command.push('l');
+      this.command.push(dx);
+      this.command.push(',');
+      this.command.push(dy);
+      return this;
+    };
+    PwnvgPathBuilder.prototype.close = function() {
+      this.command.push('Z');
+      return this;
+    };
+    PwnvgPathBuilder.prototype.toString = function() {
+      return this.command.join('');
+    };
+    return PwnvgPathBuilder;
+  })();
+  window.Pwnvg = Pwnvg;
+}).call(this);
+
+(function() {
+  var ImageView, Visualizer, traceData;
+  ImageView = (function() {
+    function ImageView(canvas, imageJson) {
+      var color, hexString, i, row;
+      this.canvas = canvas;
+      this.sy = imageJson.rows;
+      this.sx = imageJson.cols;
+      this.data = (function() {
+        var _i, _len, _ref, _results;
+        _ref = imageJson.data;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          hexString = _ref[_i];
+          i = 0;
+          row = [];
+          while (i < hexString.length) {
+            color = hexString.substring(i, i + 6);
+            row.push([parseInt(color.substring(0, 2), 16), parseInt(color.substring(2, 4), 16), parseInt(color.substring(4, 6), 16)]);
+            i += 6;
+          }
+          _results.push(row);
+        }
+        return _results;
+      })();
+      this.renderToCanvas();
+    }
+    ImageView.prototype.renderToCanvas = function() {
+      var context, imageData, texture, x, y, _ref, _ref2;
+      texture = document.createElement('canvas');
+      texture.width = this.sx;
+      texture.height = this.sy;
+      context = texture.getContext('2d');
+      imageData = context.createImageData(this.sx, this.sy);
+      for (y = 0, _ref = this.sy; 0 <= _ref ? y < _ref : y > _ref; 0 <= _ref ? y++ : y--) {
+        for (x = 0, _ref2 = this.sx; 0 <= _ref2 ? x < _ref2 : x > _ref2; 0 <= _ref2 ? x++ : x--) {
+          imageData.data[y * this.sx * 4 + x * 4] = this.data[y][x][0];
+          imageData.data[y * this.sx * 4 + x * 4 + 1] = this.data[y][x][1];
+          imageData.data[y * this.sx * 4 + x * 4 + 2] = this.data[y][x][2];
+          imageData.data[y * this.sx * 4 + x * 4 + 3] = 255;
+        }
+      }
+      context.putImageData(imageData, 0, 0);
+      context = this.canvas.getContext('2d');
+      return context.drawImage(texture, 0, 0, this.sx, this.sy, 0, 0, this.canvas.width, this.canvas.height);
+    };
+    return ImageView;
+  })();
+  Visualizer = (function() {
+    function Visualizer(encryptedCanvas, decryptedCanvas, traceData) {
+      this.encryptedImage = new ImageView(encryptedCanvas, traceData.encrypted);
+      this.decryptedImage = new ImageView(decryptedCanvas, traceData.image);
+    }
+    return Visualizer;
+  })();
+  traceData = null;
+  window.onJsonp = function(data) {
+    return traceData = data;
+  };
+  window.onload = function() {
+    var decryptedCanvas, encryptedCanvas;
+    encryptedCanvas = document.getElementById('encrypted-canvas');
+    decryptedCanvas = document.getElementById('decrypted-canvas');
+    window.visualizer = new Visualizer(encryptedCanvas, decryptedCanvas, traceData);
+    return traceData = null;
+  };
+}).call(this);
+
+    </script>
+    <script src="../../trace.jsonp" type="text/javascript"></script>
+  </head>
+  <body>
+    <section id="encrypted">
+      <h1>Encrypted image</h1>
+      <div class="canvas-wrapper">
+        <canvas id="encrypted-canvas" />
+      </div>
+    </section>
+    <section id="decrypted">
+      <h1>Decrypted image</h1>
+      <div class="canvas-wrapper">
+        <canvas id="decrypted-canvas" />
+      </div>
+    </section>
+  </body>
+</html>
