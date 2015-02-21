@@ -1,0 +1,165 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFF000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF000000000000000000FFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFF000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF000000000000000000FFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFF000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF000000000000000000FFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+FFFFFF000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000FFFFFF
+FFFFFF000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000FFFFFF
+FFFFFFFFFFFF000000000000000000000000000000000000000000000000000000000000000000000000FFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFF000000000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+         731752 function calls (731681 primitive calls) in 0.526 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    65536    0.204    0.000    0.248    0.000 ks_primitives_unchecked.py:248(__init__)
+        1    0.084    0.084    0.343    0.343 ks_primitives_unchecked.py:8(<module>)
+      588    0.055    0.000    0.090    0.000 big_num.py:183(__add__)
+      580    0.040    0.000    0.068    0.000 big_num.py:255(single_digit_mul)
+   131080    0.018    0.000    0.018    0.000 ks_primitives_unchecked.py:46(hex)
+    35703    0.016    0.000    0.016    0.000 ks_primitives_unchecked.py:206(__add__)
+   101239    0.016    0.000    0.016    0.000 ks_primitives_unchecked.py:184(msb)
+   102266    0.015    0.000    0.015    0.000 ks_primitives_unchecked.py:180(lsb)
+    83471    0.011    0.000    0.011    0.000 {method 'append' of 'list' objects}
+118400/118385    0.010    0.000    0.010    0.000 {len}
+    16488    0.007    0.000    0.007    0.000 ks_primitives_unchecked.py:80(__mul__)
+    40516    0.007    0.000    0.007    0.000 ks_primitives_unchecked.py:50(word)
+    14645    0.005    0.000    0.005    0.000 ks_primitives_unchecked.py:72(__add__)
+     1210    0.004    0.000    0.006    0.000 big_num.py:428(normalize)
+     2107    0.003    0.000    0.003    0.000 big_num.py:19(__init__)
+        1    0.003    0.003    0.005    0.005 {__import__}
+      172    0.002    0.000    0.163    0.001 big_num.py:266(slow_mul)
+        1    0.002    0.002    0.002    0.002 hex_codec.py:8(<module>)
+        1    0.002    0.002    0.526    0.526 rsa.py:1(<module>)
+        1    0.002    0.002    0.002    0.002 scanner.py:2(<module>)
+      851    0.002    0.000    0.003    0.000 big_num.py:45(zero)
+       64    0.002    0.000    0.003    0.000 big_num.py:214(__sub__)
+        1    0.002    0.002    0.010    0.010 __init__.py:99(<module>)
+       15    0.002    0.000    0.002    0.000 {range}
+      584    0.001    0.000    0.003    0.000 big_num.py:165(__lshift__)
+     6175    0.001    0.000    0.001    0.000 ks_primitives_unchecked.py:15(zero)
+     2819    0.001    0.000    0.001    0.000 {method 'pop' of 'list' objects}
+       52    0.001    0.000    0.160    0.003 big_num.py:344(fast_divmod)
+      112    0.000    0.000    0.001    0.000 big_num.py:129(__le__)
+        1    0.000    0.000    0.008    0.008 decoder.py:2(<module>)
+      256    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:112(__init__)
+      588    0.000    0.000    0.000    0.000 {method 'extend' of 'list' objects}
+      656    0.000    0.000    0.000    0.000 {max}
+       16    0.000    0.000    0.170    0.011 rsa.py:28(decrypt)
+      112    0.000    0.000    0.001    0.000 big_num.py:112(__lt__)
+     1180    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:138(zero)
+     15/6    0.000    0.000    0.001    0.000 sre_parse.py:388(_parse)
+        2    0.000    0.000    0.170    0.085 big_num.py:397(powmod)
+        1    0.000    0.000    0.343    0.343 big_num.py:1(<module>)
+     1375    0.000    0.000    0.000    0.000 {isinstance}
+      172    0.000    0.000    0.163    0.001 big_num.py:243(__mul__)
+      396    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:210(__sub__)
+     26/6    0.000    0.000    0.000    0.000 sre_compile.py:64(_compile)
+       14    0.000    0.000    0.000    0.000 sre_compile.py:256(_optimize_charset)
+       54    0.000    0.000    0.000    0.000 big_num.py:50(one)
+      118    0.000    0.000    0.000    0.000 sre_parse.py:191(__next)
+       52    0.000    0.000    0.160    0.003 big_num.py:325(__divmod__)
+    35/15    0.000    0.000    0.000    0.000 sre_parse.py:149(getwidth)
+       56    0.000    0.000    0.000    0.000 big_num.py:174(__rshift__)
+      396    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:188(__lt__)
+        1    0.000    0.000    0.001    0.001 encoder.py:2(<module>)
+       52    0.000    0.000    0.160    0.003 big_num.py:338(slow_divmod)
+       52    0.000    0.000    0.160    0.003 big_num.py:315(__mod__)
+        6    0.000    0.000    0.002    0.000 re.py:230(_compile)
+       56    0.000    0.000    0.000    0.000 big_num.py:156(__ge__)
+       56    0.000    0.000    0.000    0.000 big_num.py:147(__gt__)
+       20    0.000    0.000    0.000    0.000 {method 'readline' of 'file' objects}
+       91    0.000    0.000    0.000    0.000 sre_parse.py:139(__getitem__)
+     13/6    0.000    0.000    0.001    0.000 sre_parse.py:310(_parse_sub)
+       94    0.000    0.000    0.000    0.000 sre_parse.py:210(get)
+        1    0.000    0.000    0.000    0.000 rsa.py:109(from_file)
+       14    0.000    0.000    0.000    0.000 sre_compile.py:228(_compile_charset)
+      217    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:20(one)
+       18    0.000    0.000    0.000    0.000 sre_parse.py:234(_class_escape)
+        6    0.000    0.000    0.000    0.000 sre_compile.py:433(_compile_info)
+        6    0.000    0.000    0.002    0.000 sre_compile.py:567(compile)
+        4    0.000    0.000    0.000    0.000 sre_compile.py:411(_mk_bitmap)
+        4    0.000    0.000    0.000    0.000 big_num.py:57(from_hex)
+        1    0.000    0.000    0.170    0.170 rsa.py:72(decrypt_image)
+      108    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:54(__lt__)
+       80    0.000    0.000    0.000    0.000 sre_parse.py:204(match)
+        6    0.000    0.000    0.001    0.000 sre_parse.py:686(parse)
+       48    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:92(__and__)
+       21    0.000    0.000    0.000    0.000 {method 'split' of 'str' objects}
+       20    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 big_num.py:16(BigNum)
+       15    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:25(from_hex)
+       32    0.000    0.000    0.000    0.000 {method 'format' of 'str' objects}
+       48    0.000    0.000    0.000    0.000 {method 'find' of 'bytearray' objects}
+       32    0.000    0.000    0.000    0.000 {method 'write' of 'file' objects}
+        1    0.000    0.000    0.005    0.005 __init__.py:71(search_function)
+        1    0.000    0.000    0.000    0.000 __future__.py:48(<module>)
+        3    0.000    0.000    0.000    0.000 big_num.py:79(hex)
+        6    0.000    0.000    0.002    0.000 re.py:192(compile)
+        1    0.000    0.000    0.170    0.170 rsa.py:89(to_file)
+       56    0.000    0.000    0.000    0.000 {min}
+       26    0.000    0.000    0.000    0.000 sre_parse.py:90(__init__)
+        6    0.000    0.000    0.001    0.000 sre_compile.py:552(_code)
+        1    0.000    0.000    0.000    0.000 codecs.py:77(__new__)
+       50    0.000    0.000    0.000    0.000 sre_parse.py:135(__len__)
+        1    0.000    0.000    0.000    0.000 decoder.py:304(__init__)
+        9    0.000    0.000    0.000    0.000 sre_compile.py:428(_simple)
+       16    0.000    0.000    0.000    0.000 rsa.py:68(add_row)
+       25    0.000    0.000    0.000    0.000 sre_parse.py:147(append)
+        4    0.000    0.000    0.000    0.000 sre_parse.py:266(_escape)
+        6    0.000    0.000    0.000    0.000 sre_parse.py:187(__init__)
+        6    0.000    0.000    0.000    0.000 {_sre.compile}
+       32    0.000    0.000    0.000    0.000 {chr}
+       12    0.000    0.000    0.000    0.000 sre_compile.py:546(isstring)
+        1    0.000    0.000    0.005    0.005 decoder.py:17(_floatconstants)
+        6    0.000    0.000    0.000    0.000 sre_parse.py:72(opengroup)
+        1    0.000    0.000    0.005    0.005 {method 'decode' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 __init__.py:49(normalize_encoding)
+        1    0.000    0.000    0.000    0.000 rsa.py:55(EncryptedImage)
+        1    0.000    0.000    0.000    0.000 {_struct.unpack}
+        1    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:12(Byte)
+        1    0.000    0.000    0.000    0.000 rsa.py:17(__init__)
+        6    0.000    0.000    0.000    0.000 sre_parse.py:83(closegroup)
+       32    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+       32    0.000    0.000    0.000    0.000 {method 'setdefault' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 hex_codec.py:70(getregentry)
+        1    0.000    0.000    0.000    0.000 {binascii.a2b_hex}
+        3    0.000    0.000    0.000    0.000 UserDict.py:58(get)
+        6    0.000    0.000    0.000    0.000 sre_parse.py:67(__init__)
+        1    0.000    0.000    0.170    0.170 rsa.py:84(to_line_list)
+        1    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:135(Word)
+        5    0.000    0.000    0.000    0.000 {method 'translate' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 rsa.py:64(set_key)
+        2    0.000    0.000    0.170    0.085 rsa.py:24(raw_crypt)
+        6    0.000    0.000    0.000    0.000 {method 'remove' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 hex_codec.py:27(hex_decode)
+        3    0.000    0.000    0.000    0.000 UserDict.py:70(__contains__)
+        1    0.000    0.000    0.000    0.000 encoder.py:101(__init__)
+        1    0.000    0.000    0.000    0.000 hex_codec.py:52(IncrementalEncoder)
+        1    0.000    0.000    0.000    0.000 rsa.py:15(RsaKey)
+        1    0.000    0.000    0.000    0.000 decoder.py:274(JSONDecoder)
+        1    0.000    0.000    0.000    0.000 encoder.py:70(JSONEncoder)
+        1    0.000    0.000    0.000    0.000 {built-in method __new__ of type object at 0x10ad877e8}
+        1    0.000    0.000    0.000    0.000 rsa.py:58(__init__)
+        9    0.000    0.000    0.000    0.000 sre_parse.py:143(__setitem__)
+        1    0.000    0.000    0.000    0.000 hex_codec.py:45(Codec)
+        1    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:153(from_bytes)
+       15    0.000    0.000    0.000    0.000 {ord}
+        1    0.000    0.000    0.000    0.000 ks_primitives_unchecked.py:218(__floordiv__)
+        1    0.000    0.000    0.000    0.000 __future__.py:74(_Feature)
+        1    0.000    0.000    0.000    0.000 hex_codec.py:57(IncrementalDecoder)
+        1    0.000    0.000    0.000    0.000 hex_codec.py:62(StreamWriter)
+        6    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 hex_codec.py:65(StreamReader)
+        1    0.000    0.000    0.000    0.000 {hasattr}
+        7    0.000    0.000    0.000    0.000 __future__.py:75(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+

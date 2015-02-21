@@ -33,147 +33,186 @@ None.
 
 \newcommand{\answerIa}{ \answer
 %%% PROBLEM 1(a) ANSWER START %%%
-0
+3
 %%% PROBLEM 1(a) ANSWER END %%%
 }
 
 \newcommand{\answerIb}{ \answer
 %%% PROBLEM 1(b) ANSWER START %%%
-0
+3
 %%% PROBLEM 1(b) ANSWER END %%%
 }
 
 \newcommand{\answerIc}{ \answer
 %%% PROBLEM 1(c) ANSWER START %%%
-0
+1
 %%% PROBLEM 1(c) ANSWER END %%%
 }
 
 \newcommand{\answerId}{ \answer
 %%% PROBLEM 1(d) ANSWER START %%%
-0
+4
 %%% PROBLEM 1(d) ANSWER END %%%
 }
 \newcommand{\answerIe}{ \answer
 %%% PROBLEM 1(e) ANSWER START %%%
-0
+3
 %%% PROBLEM 1(e) ANSWER END %%%
 }
 \newcommand{\answerIf}{ \answer
 %%% PROBLEM 1(f) ANSWER START %%%
-0
+2
 %%% PROBLEM 1(f) ANSWER END %%%
 }
 \newcommand{\answerIg}{ \answer
 %%% PROBLEM 1(g) ANSWER START %%%
-0
+3
 %%% PROBLEM 1(g) ANSWER END %%%
 }
 \newcommand{\answerIh}{ \answer
 %%% PROBLEM 1(h) ANSWER START %%%
-0
+3
 %%% PROBLEM 1(h) ANSWER END %%%
 }
 \newcommand{\answerIi}{ \answer
 %%% PROBLEM 1(i) ANSWER START %%%
-0
+4
 %%% PROBLEM 1(i) ANSWER END %%%
 }
 \newcommand{\answerIj}{ \answer
 %%% PROBLEM 1(j) ANSWER START %%%
-0
+1
 %%% PROBLEM 1(j) ANSWER END %%%
 }
 \newcommand{\answerIk}{ \answer
 %%% PROBLEM 1(k) ANSWER START %%%
-0
+4
 %%% PROBLEM 1(k) ANSWER END %%%
 }
 \newcommand{\answerIl}{ \answer
 %%% PROBLEM 1(l) ANSWER START %%%
-0
+8
 %%% PROBLEM 1(l) ANSWER END %%%
 }
 \newcommand{\answerIm}{ \answer
 %%% PROBLEM 1(m) ANSWER START %%%
-0
+6
 %%% PROBLEM 1(m) ANSWER END %%%
 }
 \newcommand{\answerIn}{ \answer
 %%% PROBLEM 1(n) ANSWER START %%%
-0
+6
 %%% PROBLEM 1(n) ANSWER END %%%
 }
 \newcommand{\answerIo}{ \answer
 %%% PROBLEM 1(o) ANSWER START %%%
-0
+7
 %%% PROBLEM 1(o) ANSWER END %%%
 }
 \newcommand{\answerIp}{ \answer
 %%% PROBLEM 1(p) ANSWER START %%%
-Your pseudo-code in latex.
+computing the kth root of a
+\begin{lstlisting}[language=Python]
+def kth_root(k, a, N):
+  accuracy_bound = <appropriate bound>
+  def iterate_root(k, a, guess, N):
+    if abs(pow_mod(guess, k,  N) - a) <= accuracy_bound:
+      return guess
+    else:
+      iterate_root(k, a, (guess + a) / 2, N)
+  iterate_root(k, a, (a / k), N)
+\end{lstlisting}
+
+Running time:
+T(g) = T(g/2) + Θ(N^log(2 | 6))
+where g is the search space: [0, 2^N - 1]
+Solving the recurrence gives T(g) = Θ(log(2 | g) * N^(log(2 | 6)))
+log(2 | g) = log(2 | 2^N - 1) = Θ(N)
+Θ(N * N^log(2 | 6)) = Θ(N^(1 + log(2 | 2) + log(2 | 3))) = Θ(N^(2 + log(2 | 3)))
 %%% PROBLEM 1(p) ANSWER END %%%
 }
 
 \newcommand{\answerIIa}{ \answer
 %%% PROBLEM 2(a) ANSWER START %%%
-0
+7
 %%% PROBLEM 2(a) ANSWER END %%%
 }
 \newcommand{\answerIIb}{ \answer
 %%% PROBLEM 2(b) ANSWER START %%%
-0
+3
 %%% PROBLEM 2(b) ANSWER END %%%
 }
 \newcommand{\answerIIc}{ \answer
 %%% PROBLEM 2(c) ANSWER START %%%
-0
+9
 %%% PROBLEM 2(c) ANSWER END %%%
 }
 \newcommand{\answerIId}{ \answer
 %%% PROBLEM 2(d) ANSWER START %%%
-0
+0 true
+1 true
+2 false
+3 false
+4 false
+5 false
+6 false
 %%% PROBLEM 2(d) ANSWER END %%%
 }
 \newcommand{\answerIIe}{ \answer
 %%% PROBLEM 2(e) ANSWER START %%%
-0
+1 true
+2 false
+3 false
+4 true
+5 true
 %%% PROBLEM 2(e) ANSWER END %%%
 }
 \newcommand{\answerIIf}{ \answer
 %%% PROBLEM 2(f) ANSWER START %%%
-0
+1 false - all 'NO' messages will encrypt to the same value, and 'YES' will be recognizably different
+2 true - all messages will encrypt to a different value, and the receiver will
+         be able to discard the number after decryption
+3 true - all messages will encrypt to a different value because of the different keys.
+         Each key will also encrypt to a different value because they are different keys.
+         The receiver can then decrypt them after using their standard key to decrypt the keys.
+4 false - all 'NO' messages will encrypt to the same value, and 'YES' will be recognizably different
+5 false - all 'NO' messages will encrypt to the same value, and 'YES' will be recognizably different
 %%% PROBLEM 2(f) ANSWER END %%%
 }
 
 \newcommand{\answerIIIa}{ \answer 
 %%% PROBLEM 3(a) ANSWER START %%%
-method\_name
+fast_mul
 %%% PROBLEM 3(a) ANSWER END %%%
 }
 \newcommand{\answerIIIb}{ \answer
 %%% PROBLEM 3(b) ANSWER START %%%
-0
+172
 %%% PROBLEM 3(b) ANSWER END %%%
 }
 \newcommand{\answerIIIc}{ \answer
 %%% PROBLEM 3(c) ANSWER START %%%
-0
+4
 %%% PROBLEM 3(c) ANSWER END %%%
 }
 \newcommand{\answerIIId}{ \answer
 %%% PROBLEM 3(d) ANSWER START %%%
-0
+4
 %%% PROBLEM 3(d) ANSWER END %%%
 }
 \newcommand{\answerIIIe}{ \answer
 %%% PROBLEM 3(e) ANSWER START %%%
-0
+1 true
+2 true
+3 false
+4 true
+5
+
 %%% PROBLEM 3(e) ANSWER END %%%
 }
 \newcommand{\answerIIIf}{ \answer
 %%% PROBLEM 3(f) ANSWER START %%%
-0
+1
 %%% PROBLEM 3(f) ANSWER END %%%
 }
 

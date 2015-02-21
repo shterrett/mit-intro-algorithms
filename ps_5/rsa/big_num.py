@@ -15,10 +15,10 @@ else:
 
 class BigNum(object):
   '''Large number implemented as a little-endian array of Bytes.'''
-  
+
   def __init__(self, digits, size = None, no_copy = False):
     '''Creates a BigNum from a sequence of digits.
-    
+
     Args:
       digits: the Bytes used to populate the BigNum
       size: if set, the BigNum will only use the first "size" elements of digits
@@ -37,27 +37,27 @@ class BigNum(object):
       self.d = digits[0:size]
     while len(self.d) < size:
       self.d.append(Byte.zero())
-      
+
     # Used by the Newton-Raphson division code.
     self.__inverse = None
     self.__inverse_precision = None
-    
+
   @staticmethod
   def zero(size = 1):
     '''BigNum representing the number 0 (zero).'''
     return BigNum([Byte.zero()] * size, size, True)
-  
+
   @staticmethod
   def one(size = 1):
     '''BigNum representing the number 1 (one).'''
     digits = [Byte.zero()] * size
     digits[0] = Byte.one()
     return BigNum(digits, size, True)
-  
+
   @staticmethod
   def from_hex(hex_string):
     '''BigNum representing the given hexadecimal number.
-    
+
     Args:
       hex_string: string containing the desired number in hexadecimal; the
                   allowed digits are 0-9, A-F, a-f
@@ -70,15 +70,15 @@ class BigNum(object):
         byte_string = hex_string[(i - 2):i]
       digits.append(Byte.from_hex(byte_string))
     return BigNum(digits)
-  
+
   @staticmethod
   def h(hex_string):
     '''Shorthand for from_hex(hex_string).'''
     return BigNum.from_hex(hex_string)
-  
+
   def hex(self):
     '''Hexadecimal string representing this BigNum.
-    
+
     This method does not normalize the BigNum, because it is used during
     debugging.
     '''
@@ -86,32 +86,32 @@ class BigNum(object):
     while start > 0 and self.d[start] == Byte.zero():
       start -= 1
     return ''.join([self.d[i].hex() for i in xrange(start, -1, -1)])
-  
+
   def __eq__(self, other):
     '''== for BigNums.
-    
+
     Comparing BigNums normalizes them.'''
     if not isinstance(other, BigNum):
       return False
-    
+
     self.normalize()
     other.normalize()
     return self.d == other.d
-    
+
   def __ne__(self, other):
     '''!= for BigNums.
-    
+
     Comparing BigNums normalizes them.'''
     if not isinstance(other, BigNum):
       return True
-    
+
     self.normalize()
     other.normalize()
     return self.d != other.d
 
   def __lt__(self, other):
     '''< for BigNums.
-    
+
     Comparing BigNums normalizes them.'''
     if not isinstance(other, BigNum):
       return NotImplemented  # BigNums can only be compared to other BigNums.
@@ -120,7 +120,7 @@ class BigNum(object):
     other.normalize()
     if len(self.d) != len(other.d):
       return len(self.d) < len(other.d)
-    
+
     for i in xrange(len(self.d) - 1, -1, -1):
       if self.d[i] != other.d[i]:
         return self.d[i] < other.d[i]
@@ -128,17 +128,17 @@ class BigNum(object):
 
   def __le__(self, other):
     '''<= for BigNums.
-    
+
     Comparing BigNums normalizes them.
     '''
     if not isinstance(other, BigNum):
       return NotImplemented  # BigNums can only be compared to other BigNums.
-     
+
     self.normalize()
     other.normalize()
     if len(self.d) != len(other.d):
       return len(self.d) < len(other.d)
-    
+
     for i in xrange(len(self.d) - 1, -1, -1):
       if self.d[i] != other.d[i]:
         return self.d[i] < other.d[i]
@@ -146,7 +146,7 @@ class BigNum(object):
 
   def __gt__(self, other):
     '''> for BigNums.
-    
+
     Comparing BigNums normalizes them.
     '''
     if not isinstance(other, BigNum):
@@ -155,16 +155,16 @@ class BigNum(object):
 
   def __ge__(self, other):
     '''>= for BigNums.
-    
+
     Comparing BigNums normalizes them.
-    '''    
+    '''
     if not isinstance(other, BigNum):
       return NotImplemented  # BigNums can only be compared to other BigNums.
     return not self.__lt__(other)
 
   def __lshift__(self, digits):
     '''This BigNum, with "digits" 0 digits appended at the end.
-    
+
     Shifting to the left multiplies the BigNum by 256^digits.
     '''
     new_digits = [Byte.zero()] * digits
@@ -173,28 +173,28 @@ class BigNum(object):
 
   def __rshift__(self, digits):
     '''This BigNum, without the last "digits" digits.
-    
+
     Shifting to the left multiplies the BigNum by 256^digits.
     '''
     if digits >= len(self.d):
       return BigNum.zero()
     return BigNum(self.d[digits:], None, True)
-  
+
   def __add__(self, other):
     '''+ for BigNums.
-    
+
     Shifting to the left has the effect of multiplying the BigNum by 256^digits.
     '''
     if not isinstance(other, BigNum):
       return NotImplemented  # BigNums can only be added to BigNums.
-    
+
     # One would think that it'd be faster to have a for loop for the digits
     # between 0 and min(len(self.d), len(other.d)), and another loop between
     # min(...) and max(...), so the ifs would be eliminated.
     # Turns out pypy's JITter can eliminate the range checks on list accesses
     # for the code below, so this method ends up being significantly faster than
     # the one mentioned above, which intuitively seems better.
-        
+
     result = BigNum.zero(1 + max(len(self.d), len(other.d)))
     carry = Byte.zero()
     for i in xrange(0, len(result.d)):
@@ -213,14 +213,14 @@ class BigNum(object):
 
   def __sub__(self, other):
     '''- for BigNums.
-    
+
     Subtraction is done using 2s complement.
-    
+
     Subtracting numbers does not normalize them. However, the result is
     normalized.
     '''
     if not isinstance(other, BigNum):
-      return NotImplemented  # BigNums can only be subtracted from BigNums.    
+      return NotImplemented  # BigNums can only be subtracted from BigNums.
     result = BigNum.zero(max(len(self.d), len(other.d)))
     carry = Byte.zero()
     for i in xrange(0, len(result.d)):
@@ -239,24 +239,48 @@ class BigNum(object):
       else:
         carry = Byte.zero()
     return result.normalize()
-  
+
   def __mul__(self, other):
     '''* for BigNums.
-    
+
     Multiplying numbers does not normalize them. However, the result is
     normalized.
     '''
     if not isinstance(other, BigNum):
-      return NotImplemented  # BigNums can only be multiplied by BigNums.    
+      return NotImplemented  # BigNums can only be multiplied by BigNums.
     if len(self.d) <= 64 or len(other.d) <= 64:
       return self.slow_mul(other)
     return self.fast_mul(other)
+
+  def single_digit_mul(self, mult_digit, multiplicand):
+    result = []
+    carry = Word.zero()
+    for idx, digit in enumerate(multiplicand.d):
+      intermediate = digit * mult_digit + carry
+      carry = intermediate.msb().word()
+      result.append(intermediate.lsb())
+
+    result.append(carry.lsb())
+    return BigNum(result)
 
   def slow_mul(self, other):
     '''
     Slow method for multiplying two numbers w/ good constant factors.
     '''
-    return self.fast_mul(other)
+    multiplier, multiplicand = None, None
+    if len(self.d) > len(other.d):
+      multiplicand = self
+      multiplier = other
+    else:
+      multiplicand = other
+      multiplier = self
+
+    product = BigNum.zero()
+    for idx, digit in enumerate(multiplier.d):
+      product = product + (self.single_digit_mul(digit, multiplicand) << idx)
+
+    return product
+
 
   def fast_mul(self, other):
     '''
@@ -271,14 +295,14 @@ class BigNum(object):
     self_high = BigNum(self.d[split:], None, True)
     other_low = BigNum(other.d[:split], None, True)
     other_high = BigNum(other.d[split:], None, True)
-    
+
     result_high_high = self_high * other_high
     result_low = self_low * other_low
     result_high = (self_low + self_high) * (other_low + other_high) - \
                   (result_high_high + result_low)
     return ((result_high_high << (2 * split)) + (result_high << split) +
             result_low).normalize()
-  
+
   def __floordiv__(self, other):
     '''/ for BigNums.
 
@@ -287,35 +311,53 @@ class BigNum(object):
     if not isinstance(other, BigNum):
       return NotImplemented  # BigNums can only be divided by other BigNums.
     return self.__divmod__(other)[0]
-  
+
   def __mod__(self, other):
     '''% for BigNums.
-    
+
     Multiplying numbers does not normalize them. However, the result is
     normalized.
-    '''    
+    '''
     if not isinstance(other, BigNum):
       return NotImplemented  # BigNums can only be divided by other BigNums.
     return self.__divmod__(other)[1]
-  
+
   def __divmod__(self, other):
     '''divmod() for BigNums.
 
     Dividing numbers normalizes them. The result is also normalized.
     '''
     if not isinstance(other, BigNum):
-      return NotImplemented  # BigNums can only be divided by other BigNums.  
+      return NotImplemented  # BigNums can only be divided by other BigNums.
     self.normalize()
     other.normalize()
     if len(self.d) <= 256 or len(other.d) <= 256:
       return self.slow_divmod(other)
     return self.fast_divmod(other)
-  
+
   def slow_divmod(self, other):
     '''
     Slow method for dividing two numbers w/ good constant factors.
     '''
-    return self.fast_divmod(other)
+    dividend = BigNum(self.d)
+    divisor = BigNum(other.d)
+    divisors = [divisor]
+    two = BigNum.one() + BigNum.one()
+
+    while divisors[-1] < dividend:
+      divisors.append(divisors[-1] * two)
+
+    divisors.reverse()
+    quotient = BigNum.zero()
+    remainder = BigNum(dividend.d)
+    for dvs in divisors:
+      quotient = quotient * two
+      if remainder >= dvs:
+        remainder -= dvs
+        quotient.d[0] |= Byte.one()
+
+    return (quotient, remainder)
+
 
   def fast_divmod(self, other):
     '''
@@ -324,7 +366,7 @@ class BigNum(object):
     # Special-case 1 so we don't have to deal with its inverse.
     if len(other.d) == 1 and other.d[0] == Byte.one():
       return (self, BigNum.zero())
-      
+
     if other.__inverse is None:
       # First approximation: the inverse of the first digit in the divisor + 1,
       # because 1 / 2xx is <= 1/200 and > 1/300.
@@ -354,7 +396,7 @@ class BigNum(object):
           quotient += bn_one
         if remainder < other:
           return (quotient, remainder)
-      
+
       # other needs a better multiplicative inverse approximation.
       old_inverse = other.__inverse
       old_precision = other.__inverse_precision
@@ -369,14 +411,14 @@ class BigNum(object):
       if zero_digits > 0:
         other.__inverse = other.__inverse >> zero_digits
         other.__inverse_precision -= zero_digits
-    
+
   def powmod(self, exponent, modulus):
     '''Modular ^.
-    
+
     Args:
       exponent: the exponent that this number will be raised to
       modulus: the modulus
-      
+
     Returns (self ^ exponent) mod modulus.
     '''
     multiplier = BigNum(self.d)
@@ -392,18 +434,18 @@ class BigNum(object):
         mask = (mask * two).lsb()
         multiplier = (multiplier * multiplier) % modulus
     return result
-  
+
   def __str__(self):
     '''Debugging help: returns the BigNum formatted as "0x????...".'''
     return '0x' + self.hex()
-  
+
   def __repr__(self):
     '''Debugging help: returns an expression that can create this BigNum.'''
     return 'BigNum.h("' + self.hex() + '", ' + str(len(self.d)) + ')'
 
   def normalize(self):
     '''Removes all the trailing 0 (zero) digits in this number.
-    
+
     Returns self, for easy call chaining.
     '''
     while len(self.d) > 1 and self.d[-1] == Byte.zero():
