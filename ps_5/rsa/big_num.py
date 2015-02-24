@@ -342,16 +342,15 @@ class BigNum(object):
     dividend = BigNum(self.d)
     divisor = BigNum(other.d)
     divisors = [divisor]
-    two = BigNum.one() + BigNum.one()
 
     while divisors[-1] < dividend:
-      divisors.append(divisors[-1] * two)
+      divisors.append(divisors[-1] + divisors[-1])
 
     divisors.reverse()
     quotient = BigNum.zero()
     remainder = BigNum(dividend.d)
     for dvs in divisors:
-      quotient = quotient * two
+      quotient = quotient + quotient
       if remainder >= dvs:
         remainder -= dvs
         quotient.d[0] |= Byte.one()
