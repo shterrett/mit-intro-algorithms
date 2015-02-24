@@ -1,0 +1,148 @@
+National Transportation Atlas Database
+================================================================================
+December 1995
+
+
+                          Spatial File Formats
+                          --------------------
+
+
+
+TRANSPORTATION NETWORKS
+
+Link File
+---------
+
+Field  Field     Field   Field   Beg  End  Field
+Num    Name      Type    Length  Pos  Pos  Description
+
+ 1     RECTYPE   char     1       1    1   Record type:  always  'L'
+ 2     VERSION   char     2       2    3   Version number
+ 3     REVISION  char     2       4    5   Revision number
+ 4     MODDATE   num      8       6   13   Modification date
+ 5     LINKID    num     10      14   23   Link ID
+ 6     FEATURID  num     10      24   33   Feature ID
+ 7     ANODE     num     10      34   43   Node ID for beginning node
+ 8     BNODE     num     10      44   53   Node ID for ending node
+ 9     DESCRIPT  char    35      54   88   Name/Identification
+10     STFIPS1   num      2      89   90   Primary State FIPS Code
+11     STFIPS2   num      2      91   92   Secondary State FIPS Code
+
+
+
+Node File
+---------
+
+Field  Field     Field   Field   Beg  End  Field
+Num    Name      Type    Length  Pos  Pos  Description
+
+ 1     RECTYPE   char     1       1    1   Record type:  always  'N'
+ 2     VERSION   char     2       2    3   Version number
+ 3     REVISION  char     2       4    5   Revision number
+ 4     MODDATE   num      8       6   13   Modification date
+ 5     NODEID    num     10      14   23   Node ID
+ 6     FEATURID  num/char10      24   33   Feature ID
+ 7     LONGITUD  num     10      34   43   Longitude (6 implied dec) 
+ 8     LATITUDE  num     10      44   53   Latitude (6 implied dec) 
+ 9     DESCRIPT  char    35      54   88   Name/identification
+10     STFIPS    num      2      89   90   State FIPS code
+                                              00 if in multiple states
+                                              99 if not in the United States
+                  
+
+
+Geography (shape point) File
+----------------------------
+
+Header record
+
+Field  Field     Field   Field   Beg  End  Field
+Num    Name      Type    Length  Pos  Pos  Description
+
+ 1     RECTYPE   char     1       1    1   Record type:  always  'G'
+ 2     VERSION   char     2       2    3   Version number
+ 3     REVISION  char     2       4    5   Revision number
+ 4     MODDATE   num      8       6    13  Modification date
+ 5     LINKID    num     10      14    23  Link ID
+ 6     blank     num     10      24    33  blank
+ 7     blank     num     10      34    43  blank
+ 8     NPOINT    num      3      44    46  Number of coordinate pairs
+
+Shape records
+
+The header record is followed by INT(NPOINT + 1 / 4) fixed length shape 
+records.  Each shape record contains up to 4 coordinate pairs and is 
+formatted as numeric with 6 implied decimal places.
+
+
+
+TRANSPORTATION POINT FACILITIES
+
+Point File
+----------
+
+Field  Field     Field   Field   Beg  End  Field
+Num    Name      Type    Length  Pos  Pos  Description
+
+ 1     RECTYPE   char     1       1    1   Record type:  always  'P'
+ 2     VERSION   char     2       2    3   Version number
+ 3     REVISION  char     2       4    5   Revision number
+ 4     MODDATE   num      8       6   13   Modification date
+ 5     POINTID   num     10      14   23   Point ID
+ 6     FEATURID  char    10      24   33   Feature ID 
+ 7     LONGITUD  num     10      34   43   Longitude (6 implied dec) 
+ 8     LATITUDE  num     10      44   53   Latitude (6 implied dec) 
+ 9     DESCRIP   char    35      54   88   Name/identification
+10     STFIPS    num      2      89   90   State FIPS code
+                                              00 if in multiple States
+                                              99 if not in the United States
+
+
+AREA FILES
+
+Area File
+---------
+
+Field  Field     Field   Field   Beg  End  Field
+Num    Name      Type    Length  Pos  Pos  Description
+
+ 1     RECTYPE   char     1       1    1   Record type:  always  'A'
+ 2     VERSION   char     2       2    3   Version number
+ 3     REVISION  char     2       4    5   Revision number
+ 4     MODDATE   num      8       6   13   Modification date
+ 5     POLYID    num     10      14   23   Polygon ID
+ 6     FEATURID  char    10      24   33   Feature ID
+ 7     CNTRLONG  num     10      34   43   Longitude of feature centroid
+                                              (6 implied dec)
+ 8     CNTRLAT   num     10      44   53   Latitude of feature centroid
+                                              (6 implied decimal)
+ 9     DESCRIPT  char    35      54   88    Name/identification
+10     STFIPS    num      2      89   90    State FIPS code
+
+
+
+Geography (shape point) File
+----------------------------
+
+Header record
+
+Field  Field     Field   Field   Beg  End  Field
+Num    Name      Type    Length  Pos  Pos  Description
+
+ 1     RECTYPE   char     1       1    1   Record type:  always  'G'
+ 2     VERSION   char     2       2    3   Version number
+ 3     REVISON   char     2       4    5   Revision number
+ 4     MODDATE   num      8       6   13   Modification date
+ 5     LINEID    num     10      14   23   Line ID
+ 6     POLYIDL   num     10      24   33   Polygon ID on left
+ 7     POLYIDR   num     10      34   43   Polygon ID on right
+ 8     NPOINT    num      3      44   46   Number of coordinate pairs
+
+
+Shape records
+
+The header record is followed by INT(NPOINT + 1 / 4) fixed length shape 
+records.  Each shape record contains up to 4 coordinate pairs and is 
+formatted as numeric with 6 implied decimal places.
+
+================================================================================

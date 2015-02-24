@@ -1,0 +1,503 @@
+National Transportation Atlas Database
+================================================================================
+
+                    Data Dictionary and Database Formats
+                    ------------------------------------
+
+The Bureau of Transportation Statistics (BTS) has created a standard set of
+file formats for geospatial databases included in the National
+Transportation Atlas (NTA). These formats were developed to make it easier
+to view and extract NTA data by establishing a common structure for each of
+the three geospatial feature types depicted in the NTA: points, networks,
+and areas. These formats are also being provided to GIS software vendors so
+that they can develop translation software to import the databases directly
+into their own internal formats. The BTS will distribute all of its
+geospatial data using these formats as an interim standard until a formal
+Transportation Network Profile (TNP) is adopted as part of the Spatial Data
+Transfer Standard (SDTS).
+
+The BTS geospatial file formats are based on a set of standard record types.
+Six distinct record types are currently defined: Link, Node, Point, Area,
+Geography, and Attribute. [footnote 1] Each of the three spatial feature
+types included in the NTA consists of an interrelated combination of these
+record types defining the geometry, topology, and attributes associated with
+a specific transportation or background feature. Feature types and their
+composite record types are described below:
+
+     Transportation Networks are composed of four related record types:
+     Link, Node, Geography, and Attribute. Examples of transportation
+     networks are highways, railroads, and waterways.
+
+     Transportation Point Facilities such as airports, water ports, and
+     truck terminals require only two related record types: Point and
+     Attribute.
+
+     Areas are made up of three related record types: Area, Geography, and
+     Attribute. Features such as Congressional Districts, States, and
+     National Parks are examples of areas.
+
+Figure 1 illustrates the relationships among the record types for each
+feature:
+
+
+                File Linkage Relationships in the Databases
+           Contained in within the National Transportation Atlas
+
+      Transportation Networks                          Areas
+      -----------------------                          -----
+
+   File      Linking                        File      Linking
+             Fields                                   Fields           
+ ----------------------                    ----------------------
+|           | LINKID   |<-------          |           | AREAID   |<----
+|           |----------|        |         | Area      |----------|     |
+|           | ANODE    |<----   |         |           | FEATURID |<-   |
+| Link      |----------|     |  |          ----------------------   |  |
+|           | BNODE    |<----|  |                                   |  |
+|           |----------|     |  |          ----------------------   |  |
+|           | FEATURID |<-   |  |         | Attribute | FEATURID |<-   |
+ ----------------------   |  |  |          ----------------------      |
+                          |  |  |                                      |
+ ----------------------   |  |  |          ----------------------      |
+| Attribute | FEATURID |<-   |  |         |           | LINEID   |     |
+ ----------------------      |  |         |           |----------|     |
+                             |  |         | Geography | AREAIDL  |<----|
+ ----------------------      |  |         |           |----------|     |
+| Node      | NODEID   |<----   |         |           | AREAIDR  |<----
+ ----------------------         |          ----------------------
+                                |
+ ----------------------         |           Transportation Point Features
+| Geography | LINKID   |<-------            -----------------------------
+ ----------------------                      
+                                             File       Linking
+                                                        Fields
+                                           -----------------------
+                                          | Point     | FEATURID  |<--
+                                           -----------------------    |
+                                                                      |
+                                           -----------------------    |
+                                          | Attribute | FEATURID  |<--
+                                           -----------------------
+
+
+
+Each geospatial database distributed by the BTS will consist of a set of
+files sharing a common file name and file extensions identifying the
+corresponding record type. File names will be consistent with DOS file
+naming conventions (e.g., eight characters or less, no spaces, etc.). The
+file extensions for each record type are given below:
+
+     .lnk link record type
+
+     .nod node record type
+
+     .pnt point record type
+
+     .are area record type
+
+     .geo geography record type
+
+     .t__ attribute record type [footnote 2]
+
+Each record type employs a standard ASCII character set and fixed length
+records with fixed length attribute fields. The first four fields are the
+same for every record type. They include the record type identifier, version
+number, revision number, and modification date as described below:
+
+     1 RECTYPE
+
+          The RECTYPE identifies the record type associated with the file,
+          where:
+
+               L Link
+               N Node
+               P Point
+               A Area
+               G Geography
+               T Attribute
+
+          This field will have the same value for each record in the file.
+
+     2 VERSION
+
+          The version number is a 2-digit number that will be incremented
+          for all records in the database whenever a new release is
+          distributed.
+
+          The BTS plans to issue a new release of each NTA database on an
+          annual basis, incorporating updates of attribute fields as well as
+          all corrections and enhancements made to the geography and/or
+          topology since the previous release.
+
+          Between each version release, the BTS will post interim updates on
+          its Internet site, incorporating corrections identified by users
+          and enhancement work in progress. Interim updates will include
+          both a transaction database, containing only those records which
+          have been updated since the last major release, and a transaction
+          log file, identifying what specific changes were made to each
+          updated record.
+
+     3 REVISION
+
+          The revison number is a 2-digit number that will be incremented
+          individually for each record whenever a change is made to one of
+          its fields. Revision numbers are also included in the transaction
+          log file so that database users can identify what specific change
+          was made to the record. Revision numbers will not be reset with
+          each new release
+
+     4 MODDATE
+
+          The modification date indicates when each record in the database
+          was last changed. For release 0100 this field is blank. As changes
+          are made to a record, the modification date is entered in the
+          format 'mmddyyyy'.
+
+Following these first four fields, each record type has its own
+characteristic set of fields. These fields are described below:
+
+LINK FILE
+
+The link file contains basic information related to transportation network
+links. Each record contains the four standard fields (defined above) plus
+seven additional fields.
+
+     1 RECTYPE
+
+     2 VERSION
+
+     3 REVISION
+
+     4 MODDATE
+
+     5 LINKID
+
+          The LINKID is a unique sequential number assigned to each record
+          in the link file. It is used internally by most GIS software to
+          index records and to establish topological relationships between
+          spatial objects. It is not permanent and may change between
+          different versions of the file.
+
+     6 FEATURID
+
+          The FEATURID is a unique character string or numeric value
+          associated with the spatial feature. The metadata associated with
+          each network database describes the significance of and method for
+          assigning this identifier.
+
+          While not necessarily a permanent identifier, the FEATURID is more
+          stable than the LINKID. Any changes made in the FEATURID will be
+          recorded in a transaction file maintained by the BTS and
+          distributed with each new version of the database.
+
+     7 ANODE
+
+          The ANODE identifies a record (NODEID) in the node file that
+          corresponds to the starting position of the link. [footnote 3]
+
+     8 BNODE
+
+          The BNODE identifies a record (NODEID) in the node file that
+          corresponds to the ending position of the link.
+
+     9 DESCRIPT
+
+          The DESCRIPT field can contain any character string describing the
+          link, such as a river name, route id name, or number. These
+          descriptions need not be unique for each record.
+
+     10 STFIPS1
+
+          The STFIPS1 field contains the FIPS code for the State in which
+          the link is located. If the link borders two States, STFIPS1
+          contains the lower numeric value FIPS code.
+
+     11 STFIPS2
+
+          The STFIPS2 field contains the higher numeric value FIPS code for
+          a second State in those cases where the link borders two States.
+          If the link is located completely within a State, this field
+          contains 00. In no case should a link border three or more States
+          because a node should exist at the point where the States
+          intersect.
+
+NODE FILE
+
+The node file contains basic information related to transportation network
+nodes. Each record contains the four standard fields (defined above) plus
+six additional fields.
+
+     1 RECTYPE
+
+     2 VERSION
+
+     3 REVISON
+
+     4 MODDATE
+
+     5 NODEID
+
+          The NODEID is a unique sequential number assigned to each record
+          in the node file. It is used internally by most GIS software to
+          index records and to establish topological relationships between
+          spatial objects. It is not permanent and may change between
+          different versions of the file.
+
+     6 FEATURID
+
+          The FEATURID is a unique character string or numeric value
+          associated with the spatial feature. The metadata associated with
+          each network database describes the significance of and method for
+          assigning this identifier.
+
+          While not necessarily a permanent identifier, the FEATURID is more
+          stable than the NODEID. Any changes made in the FEATURID will be
+          recorded in a transaction file maintained by the BTS and
+          distributed with each new version of the database.
+
+     7 LONGITUD
+
+          The longitude of the node expressed as a signed integer with six
+          (6) implied decimal places.
+
+     8 LATITUDE
+
+          The latitude of the node expressed as a signed integer with six
+          (6) implied decimal places.
+
+     9 DESCRIPT
+
+          The DESCRIPT field can contain any character string describing the
+          node, such as a town name, landmark, or border crossing point.
+          These descriptions need not be unique for each record.
+
+     10 STFIPS
+
+          This field contains the FIPS code for the State in which the node
+          feature is located. If the node is located on the border of two or
+          more States, this field contains 00. If the node is located
+          outside the borders of the United States, the field contains 99.
+
+POINT FILE
+
+The point file contains basic information related to transportation point
+features and is similar to the network node file. Each record contains the
+four standard fields (defined above) plus six additional fields.
+
+     1 RECTYPE
+
+     2 VERSION
+
+     3 REVISION
+
+     4 MODDATE
+
+     5 POINTID
+
+          The POINTID is a unique sequential number assigned to each record
+          in the point feature file. It is used internally by most GIS
+          software to index records. It is not permanent and may change
+          between different versions of the file.
+
+     6 FEATURID
+
+          The FEATURID is a unique character string or numeric value
+          associated with the point feature. The metadata associated with
+          each point database describes the significance of and method for
+          assigning this identifier.
+
+          While not necessarily a permanent identifier, the FEATURID is more
+          stable than the POINTID. Any changes made in the FEATURID will be
+          recorded in a transaction file maintained by the BTS and
+          distributed with each new version of the database.
+
+     7 LONGITUD
+
+          The longitude of the point feature expressed as a signed integer
+          with six (6) implied decimal places.
+
+     8 LATITUDE
+
+          The latitude of the point feature expressed as a signed integer
+          with six (6) implied decimal places.
+
+     9 DESCRIPT
+
+          The DESCRIPT field can contain any character string describing the
+          point feature, such as a town name or airport. These descriptions
+          need not be unique for each record.
+
+     10 STFIPS
+
+          This field contains the FIPS code for the State in which the point
+          feature is located. If the point feature is located on the border
+          of two or more States, this field contains 00. If the point
+          feature is located outside the borders of the United States, the
+          field contains 99.
+
+AREA FILE
+
+The area file contains basic information related to areal features. Each
+record contains the four standard fields (defined above) plus six additional
+fields.
+
+     1 RECTYPE
+
+     2 VERSION
+
+     3 REVISION
+
+     4 MODDATE
+
+     5 POLYID
+
+          The POLYID is a unique sequential number assigned to each record
+          in the area file. It is used internally by most GIS software to
+          index records and to establish topological relationships between
+          spatial objects. It is not permanent and may change between
+          different versions of the file.
+
+     6 FEATURID
+
+          The FEATURID is a unique character string or numeric value
+          associated with the area feature. Where an area feature crosses a
+          State boundary, separate records exist for the portions of the
+          feature located within each State. For example, Yellowstone
+          National Park exists as three records, one each for Wyoming,
+          Montana, and Idaho. Each of those three records will have a unique
+          POLYID but the same FEATURID. The metadata associated with each
+          area database describes the significance of and method for
+          assigning this identifier.
+
+          While not necessarily a permanent identifier, the FEATURID is more
+          stable than the POLYID. Any changes made in the FEATURID will be
+          recorded in a transaction file maintained by the BTS and
+          distributed with each new version of the database.
+
+     7 CNTRLONG
+
+          The longitude of the area feature record centroid expressed as a
+          signed integer with six (6) implied decimal places. [footnote 4]
+
+     8 CNTRLAT
+
+          The latitude of the area feature record centroid expressed as a
+          signed integer with six (6) implied decimal places.
+
+     9 DESCRIPT
+
+          The DESCRIPT field can contain any character string describing the
+          area feature, such as a national park or military installation
+          name. These descriptions need not be unique for each record.
+
+     10 STFIPS
+
+          The STFIPS field contains the FIPS code for the State in which the
+          area feature is located. For those features which cross State
+          boundaries, this field contains the FIPS code for the State in
+          which the individual polygon is located.
+
+GEOGRAPHY FILE
+
+The geography file contains the shape information for network links or area
+boundaries. The file structure includes a header record followed by a
+variable number of shape point records. The header record contains the four
+standard fields (defined above) plus four additional fields.
+
+     1 RECTYPE
+
+     2 VERSION
+
+     3 REVISION
+
+     4 MODDATE
+
+     5 LINEID (LINKID)
+
+          The LINEID is a unique sequential number assigned to each record
+          in the geography file. It is used internally by most GIS software
+          to index records and to establish topological relationships
+          between spatial objects. In transportation networks the field name
+          is LINKID, and matches the LINKID field in the Link File. It is
+          not permanent and may change between different versions of the
+          file.
+
+     6 POLYIDL
+
+          The polygon identification number (POLYID) from the area file for
+          the polygon record located on the left side of the line. For
+          transportation networks, this field is blank.
+
+     7 POLYIDR
+
+          The polygon identification number (POLYID) from the area file for
+          the polygon record located on the right side of the line. For
+          transportation networks, this field is blank.
+
+     8 NPOINT
+
+          The number of coordinate pairs (longitude and latitude) that
+          define the shape of the linear feature and follow the header
+          record. For transportation networks, the geography file includes
+          the coordinates of both the start and end nodes of the link as
+          well as all intermediate shape points. Therefore every linear
+          feature will have at least two coordinate pairs.
+
+ATTRIBUTE FILE
+
+The attribute file(s) contains additional information about network links or
+nodes, or point or area features. There may be multiple attribute files
+associated with any geospatial feature database, and each attribute file may
+have a different number of attributes and different attribute formats.
+However, each specific attribute file is characterized by a fixed format and
+fixed record lengths.
+
+Each record in an attribute file contains the four standard fields (defined
+above), one feature identification field, and a variable number of attribute
+fields.
+
+     1 RECTYPE
+
+     2 VERSION
+
+     3 REVISION
+
+     4 MODDATE
+
+     5 FEATURID
+
+          The FEATURID is a unique character string or numeric value
+          associated with the geospatial feature, and matches the FEATURID
+          field in the corresponding Link, Node, Point, or Area files. This
+          field provides the relational link between the spatial object
+          which is used to represent a feature and the various attributes
+          associated with it.
+
+The FEATURID field is followed by a variable number of attribute fields
+pertaining to the feature. Data descriptions and formats for each attribute
+field are defined in the metadata for the geospatial database.
+
+In addition to fixed format, fixed record length ASCII files, the BTS plans
+to distribute attribute files in dBase format. Many existing GIS software
+package can read dBase files directly, and this will obviate the need for
+users of those packages to build import templates for each attribute file.
+
+----------------------------------------------------------------------------
+
+                                  Footnotes
+
+[1] A seventh record type, Linear Reference, is still under development, but
+will eventually be added to this set.
+
+[2] A geospatial database may have more than one attribute or table file. The
+two blank characters allow the BTS or users to establish a sequential
+numbering scheme where multiple attribute files are linked to the same
+geospatial feature.
+
+[3] Starting and ending positions for links are generally determined by the
+direction in which the link was digitized.
+
+[4] In those cases where an area feature is composed of multiple polygons,
+the CNTRLONG and CNTRLAT fields pertain to the centroid of each polygon.
+
+================================================================================
