@@ -33,7 +33,17 @@ be checked for each path to a given node. Even though each node is explored only
 one time, each time it is visited, the strength along that path is calculated
 and compared to the saved strength, with the higher one being kept. This
 allows the algorithm to essentially backtrack if a non-optimal decision was made
-without requiring multiple traversals of the graph..
+without requiring multiple traversals of the graph.
+
+The solution to the problem set uses a modified Bellman-Ford, which is covered
+in the next lecture. Lines 6 - 9 of the psuedocode in the solution do
+substantially the same thing as described above: visit each node adjacent to the
+current node being considered and set the weight if it is greater. The main
+difference is in the visiting order for the graph. The algorithm in the solution
+visits each edge in the graph once for every iteration 0..k. The psuedocode
+above only visits each edge when it is re-encountered and relies on an unstated
+assumption about being able to detect when k levels of the graph have been
+traversed.
 
 Problem 6-2: Installing webserver and dependencies
 a: creating an installation order for all libraries
@@ -49,6 +59,8 @@ gives the proper installation order for all of the required libraries.
 DFS runs in Θ(V + E) time, and the step to attach each V to the list is Θ(1),
 so this algorithm will run in Θ(V + E).
 
+This describes a topological sort of a Directed Acyclic Graph.
+
 b: creating an installation order for all not-yet-installed libraries
 
 For a set of P libraries out of the V required libraries that are not installed,
@@ -59,18 +71,25 @@ hash (or coloring) of a node to determine whether to explore that node.
 
 def partial_order:
   installation_order = () // linked-list of libraries to be installed
+  visited = {} // set of visited nodes
 
-  def visit(lib):
+  def visit(lib, visited, installation_order):
     for dep in dependencies[lib]: // dependencies is an adjacency list for the graph
-      if !installed[dep]:
-        visit(dep)
+      if !installed[dep] and lib not in visited:
+        visited.add(lib)
+        visit(dep, installation_order)
     installation_order.enqueue(lib)
 
   for each lib in all_libraries: // all_libraries is the entire graph
-    if !installed[lib]: // the O(1) has lookup to check for installation
-      visit(lib)
+    if !installed[lib] and lib not in visited: // the O(1) has lookup to check for installation
+      visited.add(lib)
+      visit(lib, visited, installation_order)
 
   return installation_order
+
+This was modified to track visited nodes, which is important in DFS so that the
+recursion does not consider, and revisit (potentially infinitely) previously
+visited nodes.
 
 This algorithm runs in O(V + PD), where V is the total number of libraries, P is
 the number of not-installed libraries, and D is the maximum number of dependencies
