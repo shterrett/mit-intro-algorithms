@@ -1,0 +1,89 @@
+Problem 6-1: determine strongest strength between initial person s and each friend
+f to a depth of k levels in the graph.
+
+This algorithm is a modified breadth-first search (BFS). While executing normal
+BFS, each node is added to a "parent" hash after it has been visited. In this
+version, the parent hash will be replaced with a "strength" hash, of the form:
+
+{ node: [parent, ER(self, parent) }
+
+The algorithm will then take advantage of the fact that the strength metric is
+associative, and the strength for f is the product of the strength of f's parent
+and the EdgeRank between f and its parent.
+
+While proceeding with BFS, when a node (v) is encountered that already exists in
+the parent hash, it is not explored again. In this algorithm, v is not
+enqueued to explore, but an extra step is taken. The strength metric for that v
+with its parent in the current path is compared to the strength metric for v
+that is stored in the strength hash. The strength metric for v is easily computed
+by multipliying the EdgeRank of v and its parent to the strenghth for v's parent
+that exists in the strength hash. If the strength metric on this path is greater
+than the metric in the hash, the entry for v in the hash is replaced with v's
+current parent and strength metric. If the metric in the hash is greater than
+along the current path, then the result is ignored. After this final check,
+BFS continues normally.
+
+This satisfies the time constraint of Θ(V + kE):
+BFS is Θ(V + E) because each vertex and edge is visited exactly one time.
+This modified algorithm does a constant amount of extra work to each edge,
+comparing its strength metric along the current path to a saved metric (if exists).
+
+This satisfies the constraint for strongest strength by allowing the strength to
+be checked for each path to a given node. Even though each node is explored only
+one time, each time it is visited, the strength along that path is calculated
+and compared to the saved strength, with the higher one being kept. This
+allows the algorithm to essentially backtrack if a non-optimal decision was made
+without requiring multiple traversals of the graph..
+
+Problem 6-2: Installing webserver and dependencies
+a: creating an installation order for all libraries
+
+To create an installation order for all libraries, the libraries and their
+dependencies will be represented in directed graph, where edges point from
+a library to all those libraries that depend on it. Depth First Search (DFS) is
+then executed on this graph, tracking completion times for each of the nodes.
+As a node is completed, it is enqueued to a FILO queue - ie attached to the
+head of a linked-list. When DFS is complete, proceeding down the linked-list
+gives the proper installation order for all of the required libraries.
+
+DFS runs in Θ(V + E) time, and the step to attach each V to the list is Θ(1),
+so this algorithm will run in Θ(V + E).
+
+b: creating an installation order for all not-yet-installed libraries
+
+For a set of P libraries out of the V required libraries that are not installed,
+an installation order can be created in the same way. However, first the set P
+must be determined. The overall structure is the same as above, but the DFS
+algorithm is modified to use the installation status of a library as the parent
+hash (or coloring) of a node to determine whether to explore that node.
+
+def partial_order:
+  installation_order = () // linked-list of libraries to be installed
+
+  def visit(lib):
+    for dep in dependencies[lib]: // dependencies is an adjacency list for the graph
+      if !installed[dep]:
+        visit(dep)
+    installation_order.enqueue(lib)
+
+  for each lib in all_libraries: // all_libraries is the entire graph
+    if !installed[lib]: // the O(1) has lookup to check for installation
+      visit(lib)
+
+  return installation_order
+
+This algorithm runs in O(V + PD), where V is the total number of libraries, P is
+the number of not-installed libraries, and D is the maximum number of dependencies
+for each library. Therefore, for the not-installed libraries, PD = |edges|.
+The initial for loop must look at every vertex in the graph to determine whether
+or not it is installed. Then a proper DFS visitation is executed from each of
+the not-installed nodes. That depth-first visitation visits each dependency of a
+not-installed node (D) for each not-installed node (P).
+
+The assignment asks for O(P + PD); however, I do not see a way to determine the
+set P of libraries that have not been installed without visiting each library
+in the initial set (V). The visit function, however, is only called P times,
+and in general the running time of visit should eclipse the call time into
+the installed hash. So the actual running time of the algorithm reduces to O(P + PD)
+because the V - P iterations of the inital for loop are insignificant in time
+compared to the P visit calls, each of which takes O(D) time.

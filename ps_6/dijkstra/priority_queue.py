@@ -22,7 +22,7 @@ class PriorityQueue:
         self.heap[i] = key
 
     def decrease_key(self, key):
-        """Decreases the value of the key if it is in the priority queue and 
+        """Decreases the value of the key if it is in the priority queue and
         maintains the heap property."""
         index = self.key_index[key]
         if index:
