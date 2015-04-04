@@ -131,7 +131,7 @@ None.
 
 \newcommand{\answerIIh}{\solution{
 %%% PROBLEM 2(h) ANSWER START %%%
-5
+3 5 <-- leftover contributes to value
 %%% PROBLEM 2(h) ANSWER END %%%
 }}
 
@@ -161,19 +161,22 @@ None.
 
 \newcommand{\answerIIm}{\solution{
 %%% PROBLEM 2(m) ANSWER START %%%
-1
+7 - inner loop runs once for each stock value if enough cash
+    decrements cash until < 0, and then decrements stock. So the
+    total loop time is bounded by stock + cash. Because the loop
+    isn't nested, it's not stock * cash.
 %%% PROBLEM 2(m) ANSWER END %%%
 }}
 
 \newcommand{\answerIIn}{\solution{
 %%% PROBLEM 2(n) ANSWER START %%%
-4
+5 -- Did substitution, but it ooks like I forgot to add the `end` term
 %%% PROBLEM 2(n) ANSWER END %%%
 }}
 
 \newcommand{\answerIIo}{\solution{
 %%% PROBLEM 2(o) ANSWER START %%%
-1
+2 -- Did substitution, but it ooks like I forgot to add the `end` term
 %%% PROBLEM 2(o) ANSWER END %%%
 }}
 
@@ -272,6 +275,15 @@ the available cash (ie the size of the knapsack). The solution is
 psuedopolynomial, then, and for large N relative to C - many more shares of
 actual stock than cash with which to purchase them - will run in approximately
 polynomial time.
+
+The solutions give the complexity as O(count * total^2) where count is the
+number of stocks (not shares), and total is the amount of cash on hand.
+This is equivalent to the O(NC) I posited above, where N is the number of
+shares summed over the number of stocks, and C is the cash on hand.
+To demonstrate equivalence consider the case in which no limits are passed in,
+and so each stock is limited only by the amount of cash on hand. Then,
+N = SUM(total / initial) for each stock in count. Therefore N is O(total*count)
+and C is O(total). O(NC) = O(count * total^2)
 \end{codebox}
 
 Remember to analyze your pseudocode as well.
